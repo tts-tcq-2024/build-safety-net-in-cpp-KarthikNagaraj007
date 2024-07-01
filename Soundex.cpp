@@ -43,12 +43,7 @@ std::string generateSoundex(const std::string& name) {
 }
 
 int main() {
-    std::string word;
-    std::cout << "Enter a word: ";
-    std::cin >> word;
-    
+    std::string word;    
     std::string soundexCode = generateSoundex(word);
-    std::cout << "Soundex code: " << soundexCode << std::endl;
-    
     return 0;
 }
