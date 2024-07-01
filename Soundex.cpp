@@ -1,27 +1,34 @@
 #include "Soundex.h"
 #include <cctype>
+#include <unordered_map>
 
-char getSoundexCode(char c) {
+// Function to initialize the Soundex code map
+std::unordered_map<char, char> initializeSoundexMap() {
+    return {
+        {'B', '1'}, {'F', '1'}, {'P', '1'}, {'V', '1'},
+        {'C', '2'}, {'G', '2'}, {'J', '2'}, {'K', '2'}, {'Q', '2'}, {'S', '2'}, {'X', '2'}, {'Z', '2'},
+        {'D', '3'}, {'T', '3'},
+        {'L', '4'},
+        {'M', '5'}, {'N', '5'},
+        {'R', '6'}
+    };
+}
+
+char getSoundexCode(char c, const std::unordered_map<char, char>& soundexMap) {
     c = toupper(c);
-    switch (c) {
-        case 'B': case 'F': case 'P': case 'V': return '1';
-        case 'C': case 'G': case 'J': case 'K': case 'Q': case 'S': case 'X': case 'Z': return '2';
-        case 'D': case 'T': return '3';
-        case 'L': return '4';
-        case 'M': case 'N': return '5';
-        case 'R': return '6';
-        default: return '0'; // For A, E, I, O, U, H, W, Y
-    }
+    auto it = soundexMap.find(c);
+    return it != soundexMap.end() ? it->second : '0'; // For A, E, I, O, U, H, W, Y
 }
 
 std::string generateSoundex(const std::string& name) {
     if (name.empty()) return "";
 
+    static const auto soundexMap = initializeSoundexMap();
     std::string soundex(1, toupper(name[0]));
-    char prevCode = getSoundexCode(name[0]);
+    char prevCode = getSoundexCode(name[0], soundexMap);
 
     for (size_t i = 1; i < name.length() && soundex.length() < 4; ++i) {
-        char code = getSoundexCode(name[i]);
+        char code = getSoundexCode(name[i], soundexMap);
         if (code != '0' && code != prevCode) {
             soundex += code;
             prevCode = code;
@@ -34,3 +41,4 @@ std::string generateSoundex(const std::string& name) {
 
     return soundex;
 }
+
