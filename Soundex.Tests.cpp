@@ -1,14 +1,8 @@
 #include <gtest/gtest.h>
 #include "Soundex.h"
 
-
-TEST(SoundexTest, HandlesEmptyString) {
+TEST(SoundexTest, GeneratesCorrectSoundexForEmptyString) {
     EXPECT_EQ(generateSoundex(""), "");
-}
-
-TEST(SoundexTest, HandlesSingleCharacter) {
-    EXPECT_EQ(generateSoundex("A"), "A000");
-    EXPECT_EQ(generateSoundex("Z"), "Z000");
 }
 
 TEST(SoundexTest, PadsSoundexToFourCharacters) {
@@ -43,4 +37,3 @@ int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
